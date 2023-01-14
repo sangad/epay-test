@@ -1,0 +1,87 @@
+{
+	"info": {
+		"_postman_id": "2989deac-8c8a-4709-a556-65a4c7bc7293",
+		"name": "CustomerManagement",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetCustomer",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:12506/api/customer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "12506",
+					"path": [
+						"api",
+						"customer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PostCustomer First TC",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    { \"lastName\": \"Bbbb\", \"firstName\": \"Bbbb\", \"Age\": 26, \"id\": 6 },\r\n    { \"lastName\": \"Bbbb\", \"firstName\": \"Aaaa\", \"Age\": 28, \"id\": 7 }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:12506/api/customer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "12506",
+					"path": [
+						"api",
+						"customer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PostCustomer TC Invalid",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[{ \"firstName\": \"Bbbb\", \"Age\": 2, \"id\": 6 },\r\n{ \"lastName\": \"Bbbb\", \"firstName\": \"Bbbb\", \"Age\": 26, \"id\": 6 },\r\n    { \"lastName\": \"Bbbb\", \"firstName\": \"Aaaa\", \"Age\": 28, \"id\": 7 }]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:12506/api/customer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "12506",
+					"path": [
+						"api",
+						"customer"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

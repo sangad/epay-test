@@ -5,39 +5,49 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    class Program
+    static class Program
     {
-        static async Task Main(String[] args)
-        {
-            int[] euroDenominations = new int[] { 100, 50, 10 };
-            int euro = 100, sum = 0;
-            string strSum = "";
-            CalcDenomination(euroDenominations, euro, euro, ref sum, ref strSum);
-            Console.ReadLine();
+        static void Main(String[] args)
+        {  //input
+            List<int> euroDenomination = new List<int>() { 10, 50, 100 };
+            int amount = 980;
+
+            Dictionary<int, int> comboDenomination = new Dictionary<int, int>();
+            foreach (int ed in euroDenomination)
+                comboDenomination.Add(ed, 0);
+
+            CalcDenomination(amount, euroDenomination, comboDenomination);
         }
 
-        public static void CalcDenomination(int[] euroDenominations, int orgEuro,int remaingEuro, ref int sum, ref string strSum)
+        public static void CalcDenomination(int money, List<int> euroDenomination, Dictionary<int, int> comboDenomination)
         {
-            for (int i = 0; i < 3; i++)
+            if (money < 0 || euroDenomination.Count == 0) return;
+            if (money == 0)
             {
-                if (remaingEuro >= euroDenominations[i])
-                {
-                    int count = remaingEuro / euroDenominations[i];
-                    sum += count * euroDenominations[i];
-                    if (sum.Equals(orgEuro))
-                    {
-                        strSum += "+"+count + "x" + euroDenominations[i]+ " EURO";
-                        Console.WriteLine(strSum.TrimStart('+'));
-                        strSum = "";
-                        sum = 0;
-                    }
-                    else
-                    {
-                        strSum += "+" + count + "x" + euroDenominations[i] + " EURO";
-                        CalcDenomination(euroDenominations, orgEuro, remaingEuro % euroDenominations[i], ref sum, ref strSum);
-                    }
-                }
+                string comboDenoStr = string.Empty;
+                foreach (KeyValuePair<int, int> keyValues in comboDenomination)
+                    if (keyValues.Value != 0)
+                        comboDenoStr = comboDenoStr + (string.IsNullOrEmpty(comboDenoStr) ? "" : "+ ") + keyValues.Key + " X " + keyValues.Value + " EUR ";
+                Console.WriteLine(comboDenoStr);
+                return;
             }
+
+            List<int> copy = new List<int>(euroDenomination);
+            copy.RemoveAt(0);
+            CalcDenomination(money, copy, comboDenomination);
+            comboDenomination = CreateNewOrUpdateExisting(new Dictionary<int, int>(comboDenomination), euroDenomination[0], 1);
+            CalcDenomination(money - euroDenomination[0], euroDenomination, comboDenomination);
+        }
+
+
+        public static Dictionary<int, int> CreateNewOrUpdateExisting(Dictionary<int, int> map, int key, int value)
+        {
+            if (map.ContainsKey(key))
+                map[key] = value + map[key];
+            else
+                map.Add(key, value);
+            return map;
         }
     }
 }
+
